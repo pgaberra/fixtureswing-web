@@ -10,3 +10,12 @@
 
 *.png binary
 *.ico binary
+
+# The pinned api spec is compared byte for byte with the api repo's copy.
+specs/** -text
+*.json text eol=lf
+*.ts text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+nginx.conf text eol=lf
+Dockerfile text eol=lf

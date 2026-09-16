@@ -4,3 +4,11 @@ dist/
 coverage/
 src/app/api/
 .env
+/tmp
+/out-tsc
+npm-debug.log
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+__screenshots__/

@@ -1,0 +1,30 @@
+# The PR check only fails a branch that itself put the pinned spec out of step; an api merge that
+# stales it is a warning there. This scheduled run is what makes staleness somebody's problem.
+name: Spec freshness
+
+on:
+  schedule:
+    # Weekday mornings, Stockholm time.
+    - cron: '15 6 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pinned-spec:
+    name: Pinned api spec matches fixture-ticker-api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # No BASE_SHA: there is no branch to blame, so any drift is the finding. A missing or expired
+      # SPEC_READ_TOKEN fails here on purpose (the api repo is private).
+      - name: Verify pinned api spec is in sync
+        env:
+          PRODUCER_TOKEN: ${{ secrets.SPEC_READ_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash .github/scripts/check-pinned-spec.sh \
+            pgaberra/fixture-ticker-api specs/openapi.json specs/api-openapi.json \
+            'npm run generate:api'

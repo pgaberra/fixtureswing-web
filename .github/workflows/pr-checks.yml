@@ -1,0 +1,73 @@
+name: PR Checks
+
+on:
+  # Not on push to master: a squash merge lands byte-identical code to what the PR run tested.
+  pull_request:
+    branches: [master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, Test & Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      # The api repo is private, so reading its spec needs a fine-grained PAT with read access to
+      # pgaberra/fixture-ticker-api contents (secret SPEC_READ_TOKEN). Without it the check is
+      # skipped with a warning rather than failing every PR; spec-freshness.yml fails instead.
+      - name: Verify pinned api spec is in sync
+        if: github.actor != 'dependabot[bot]'
+        env:
+          PRODUCER_TOKEN: ${{ secrets.SPEC_READ_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ -z "$PRODUCER_TOKEN" ]; then
+            echo "::warning::SPEC_READ_TOKEN is not set, so the pinned api spec was not compared with fixture-ticker-api."
+            exit 0
+          fi
+          bash .github/scripts/check-pinned-spec.sh \
+            pgaberra/fixture-ticker-api specs/openapi.json specs/api-openapi.json \
+            'npm run generate:api'
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate api client
+        run: npm run generate:api
+
+      - name: Verify every build placeholder is substituted
+        run: bash .github/scripts/check-build-placeholders.sh
+
+      # A config nginx refuses to load fails the deploy on Coolify, far from the change that caused it.
+      - name: Verify nginx.conf loads
+        run: docker run --rm -v "$PWD/nginx.conf:/etc/nginx/conf.d/default.conf:ro" nginx:alpine nginx -t
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Unit tests with coverage
+        run: npm run test:coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify the home page is prerendered with its content
+        run: bash .github/scripts/check-prerendered-pages.sh

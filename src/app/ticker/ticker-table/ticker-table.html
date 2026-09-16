@@ -1,0 +1,79 @@
+<div class="table-scroll" role="region" aria-label="Fixture ticker" tabindex="0">
+  <table>
+    <caption class="visually-hidden">
+      Teams ranked by fixture difficulty from gameweek
+      {{
+        range().from
+      }}
+      to
+      {{
+        range().to
+      }}
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col" class="col-team" [attr.aria-sort]="ariaSort('team')">
+          <button type="button" class="sort" (click)="sortChange.emit('team')">Team</button>
+        </th>
+        <th scope="col" class="col-ease" [attr.aria-sort]="ariaSort('ease')">
+          <button type="button" class="sort" (click)="sortChange.emit('ease')">
+            Ease <span class="unit">(100 = avg)</span>
+          </button>
+        </th>
+        @for (gw of gameweeks(); track gw) {
+          <th scope="col" class="col-gw">GW {{ gw }}</th>
+        }
+        <th scope="col" class="col-num" [attr.aria-sort]="ariaSort('projectedGoals')">
+          <button type="button" class="sort" (click)="sortChange.emit('projectedGoals')">
+            Proj. goals
+          </button>
+        </th>
+        <th scope="col" class="col-num" [attr.aria-sort]="ariaSort('projectedCleanSheets')">
+          <button type="button" class="sort" (click)="sortChange.emit('projectedCleanSheets')">
+            Proj. clean sheets
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows(); track row.teamCode; let i = $index) {
+        <tr>
+          <th scope="row" class="col-team">
+            <span class="rank">{{ i + 1 }}</span>
+            <span class="team-name">{{ row.name }}</span>
+          </th>
+          <td class="col-ease">
+            <span class="ease-value">{{ row.easeIndex | number: '1.0-0' }}</span>
+            <span class="ease-bar" aria-hidden="true">
+              <span class="ease-fill" [style.width.%]="(row.easeIndex / maxIndex()) * 100"></span>
+            </span>
+          </td>
+          @for (gw of row.gameweeks; track gw.gameweek) {
+            <td
+              class="col-gw"
+              [class.blank]="gw.fixtures.length === 0"
+              [class.double]="gw.fixtures.length > 1"
+              [style.background]="gameweekColour(gw.fixtures)"
+            >
+              @for (fixture of gw.fixtures; track fixture.fixtureId) {
+                <span
+                  class="fixture"
+                  [style.background]="gw.fixtures.length > 1 ? cellColour(fixture) : null"
+                  [attr.title]="describe(fixture)"
+                >
+                  <span class="opponent">{{ fixture.opponent }}</span>
+                  <span class="venue">{{ fixture.home ? 'H' : 'A' }}</span>
+                  <span class="visually-hidden">{{ describe(fixture) }}</span>
+                </span>
+              } @empty {
+                <span class="blank-label">Blank</span>
+              }
+            </td>
+          }
+          <td class="col-num">{{ row.projectedGoals | number: '1.1-1' }}</td>
+          <td class="col-num">{{ row.projectedCleanSheets | number: '1.1-1' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

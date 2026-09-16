@@ -40,6 +40,25 @@ npm run build                     # production build + prerender into dist/fixtu
   read access to `pgaberra/fixture-ticker-api` contents, ~90-day expiry). Without it the PR check
   skips with a warning and `spec-freshness.yml` fails.
 
+## The ticker
+
+| Path | What |
+|---|---|
+| `src/app/ticker/ticker-model.ts` | Pure functions: range/view/sort parsing, rows per team, ease index, colour scale. All ticker rules live here and are unit-tested |
+| `src/app/ticker/ticker-controls/` | Range presets, from/to selects, Overall/Attack/Defence |
+| `src/app/ticker/ticker-table/` | The ranked grid (sticky team column, ease bar, coloured fixture cells, sortable projections) |
+| `src/app/pages/home/` | Loads the ticker, keeps `?from=&to=&view=&sort=` in the URL |
+
+- **Difficulty uses the api's neutral numbers** (average club vs this opponent at this venue), never
+  the team's own projections: "easy fixtures" and "good team" stay separate. Projections are
+  shown in their own columns.
+- **Per-fixture ease is "more is easier, a blank adds nothing"**: attack = neutral goals for,
+  defence = neutral clean-sheet chance (e^-neutral goals against), overall = the mean of both, each
+  relative to the league average. A team's total is the sum, so doubles count twice and blanks
+  count against it; the **ease index** is that total over the league mean × 100.
+- **Cell colours** are scaled over every upcoming fixture, not the visible range, so a colour means
+  the same thing whichever range is picked.
+
 ## Conventions
 
 - **Angular style**: standalone components (don't set `standalone: true`), OnPush is the default

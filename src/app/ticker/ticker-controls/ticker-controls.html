@@ -1,0 +1,52 @@
+<div class="controls">
+  <fieldset class="group">
+    <legend>Gameweeks</legend>
+    <div class="presets">
+      @for (preset of presets(); track preset.span) {
+        <button
+          type="button"
+          class="chip"
+          [attr.aria-pressed]="isActivePreset(preset.range)"
+          (click)="rangeChange.emit(preset.range)"
+        >
+          Next {{ preset.span }}
+        </button>
+      }
+    </div>
+    <div class="range">
+      <label>
+        <span>From</span>
+        <select [value]="range().from" (change)="changeFrom($any($event.target).value)">
+          @for (gw of selectable(); track gw) {
+            <option [value]="gw" [selected]="gw === range().from">GW {{ gw }}</option>
+          }
+        </select>
+      </label>
+      <label>
+        <span>To</span>
+        <select [value]="range().to" (change)="changeTo($any($event.target).value)">
+          @for (gw of toOptions(); track gw) {
+            <option [value]="gw" [selected]="gw === range().to">GW {{ gw }}</option>
+          }
+        </select>
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset class="group">
+    <legend>View</legend>
+    <div class="segmented">
+      @for (v of views; track v) {
+        <button
+          type="button"
+          class="chip"
+          [attr.aria-pressed]="v === view()"
+          (click)="viewChange.emit(v)"
+        >
+          {{ viewLabels[v] }}
+        </button>
+      }
+    </div>
+    <p class="hint">{{ viewHint() }}</p>
+  </fieldset>
+</div>

@@ -22,10 +22,11 @@
   --color-warning: #e6b84a;
   --color-success: #117e39;
 
-  /* Fixture difficulty scale, easy to hard. The ticker interpolates between these. */
-  --color-ease-easy: #1f9d55;
-  --color-ease-neutral: #e8e8ea;
-  --color-ease-hard: #c53030;
+  /* Fixture difficulty scale. The ticker mixes hard → neutral → easy in OKLab. All three keep
+     --color-text above 4.5:1, so every mix between them does too. */
+  --color-ease-easy: #5cc28a;
+  --color-ease-neutral: #f1f1f4;
+  --color-ease-hard: #ef8b82;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;

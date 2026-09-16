@@ -15,8 +15,44 @@
     (retry)="ticker.reload()"
   />
 } @else if (ticker.value(); as data) {
-  <p class="summary">
-    {{ data.teams.length }} teams, {{ data.fixtures.length }} upcoming fixtures from gameweek
-    {{ data.nextGameweek }}.
-  </p>
+  <app-ticker-controls
+    [selectable]="selectable()"
+    [range]="range()"
+    [view]="currentView()"
+    (rangeChange)="changeRange($event)"
+    (viewChange)="changeView($event)"
+  />
+
+  <app-ticker-table
+    [rows]="rows()"
+    [range]="range()"
+    [view]="currentView()"
+    [sort]="currentSort()"
+    [scale]="scale()"
+    (sortChange)="changeSort($event)"
+  />
+
+  <section class="explainer">
+    <h2>How to read it</h2>
+    <ul>
+      <li>
+        <strong>Ease</strong> compares each team's fixtures in the range with the league average,
+        which is 100. A score of 120 means fixtures 20% easier than average. Double gameweeks count
+        twice and blank gameweeks count as nothing.
+      </li>
+      <li>
+        <strong>Colours</strong> run from red (hardest) to green (easiest), judged on the opponent
+        and venue only, so a strong team's easy fixture looks as easy as anyone's.
+      </li>
+      <li>
+        <strong>Projected goals and clean sheets</strong> are for the team itself, and do include
+        how good it is.
+      </li>
+    </ul>
+    <p class="as-of">
+      Based on expected goals (xG) from the official FPL data. Model updated
+      {{ data.generatedAt | date: 'd MMM, HH:mm'
+      }}{{ data.dataThrough ? ', using results up to ' + (data.dataThrough | date: 'd MMM') : '' }}.
+    </p>
+  </section>
 }

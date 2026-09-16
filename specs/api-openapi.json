@@ -1,0 +1,318 @@
+{
+  "components": {
+    "schemas": {
+      "FixtureDto": {
+        "properties": {
+          "away": {
+            "$ref": "#/components/schemas/SidePredictionDto"
+          },
+          "awayTeam": {
+            "title": "Awayteam",
+            "type": "integer"
+          },
+          "awayWin": {
+            "title": "Awaywin",
+            "type": "number"
+          },
+          "draw": {
+            "title": "Draw",
+            "type": "number"
+          },
+          "gameweek": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gameweek"
+          },
+          "home": {
+            "$ref": "#/components/schemas/SidePredictionDto"
+          },
+          "homeTeam": {
+            "title": "Hometeam",
+            "type": "integer"
+          },
+          "homeWin": {
+            "title": "Homewin",
+            "type": "number"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "kickoffTime": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kickofftime"
+          }
+        },
+        "required": [
+          "id",
+          "gameweek",
+          "kickoffTime",
+          "homeTeam",
+          "awayTeam",
+          "home",
+          "away",
+          "homeWin",
+          "draw",
+          "awayWin"
+        ],
+        "title": "FixtureDto",
+        "type": "object"
+      },
+      "GameweekDto": {
+        "properties": {
+          "deadlineTime": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Deadlinetime"
+          },
+          "finished": {
+            "title": "Finished",
+            "type": "boolean"
+          },
+          "number": {
+            "title": "Number",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "number",
+          "deadlineTime",
+          "finished"
+        ],
+        "title": "GameweekDto",
+        "type": "object"
+      },
+      "ServiceVersionDto": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "version"
+        ],
+        "title": "ServiceVersionDto",
+        "type": "object"
+      },
+      "SidePredictionDto": {
+        "description": "One side of a fixture.",
+        "properties": {
+          "cleanSheet": {
+            "title": "Cleansheet",
+            "type": "number"
+          },
+          "expectedGoals": {
+            "title": "Expectedgoals",
+            "type": "number"
+          },
+          "neutralGoalsAgainst": {
+            "title": "Neutralgoalsagainst",
+            "type": "number"
+          },
+          "neutralGoalsFor": {
+            "title": "Neutralgoalsfor",
+            "type": "number"
+          }
+        },
+        "required": [
+          "expectedGoals",
+          "cleanSheet",
+          "neutralGoalsFor",
+          "neutralGoalsAgainst"
+        ],
+        "title": "SidePredictionDto",
+        "type": "object"
+      },
+      "TeamDto": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "shortName": {
+            "title": "Shortname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "shortName"
+        ],
+        "title": "TeamDto",
+        "type": "object"
+      },
+      "TickerDto": {
+        "properties": {
+          "dataThrough": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Datathrough"
+          },
+          "fixtures": {
+            "items": {
+              "$ref": "#/components/schemas/FixtureDto"
+            },
+            "title": "Fixtures",
+            "type": "array"
+          },
+          "gameweeks": {
+            "items": {
+              "$ref": "#/components/schemas/GameweekDto"
+            },
+            "title": "Gameweeks",
+            "type": "array"
+          },
+          "generatedAt": {
+            "format": "date-time",
+            "title": "Generatedat",
+            "type": "string"
+          },
+          "modelVersion": {
+            "title": "Modelversion",
+            "type": "string"
+          },
+          "nextGameweek": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nextgameweek"
+          },
+          "season": {
+            "title": "Season",
+            "type": "string"
+          },
+          "teams": {
+            "items": {
+              "$ref": "#/components/schemas/TeamDto"
+            },
+            "title": "Teams",
+            "type": "array"
+          }
+        },
+        "required": [
+          "season",
+          "modelVersion",
+          "generatedAt",
+          "dataThrough",
+          "nextGameweek",
+          "gameweeks",
+          "teams",
+          "fixtures"
+        ],
+        "title": "TickerDto",
+        "type": "object"
+      },
+      "VersionsDto": {
+        "properties": {
+          "api": {
+            "$ref": "#/components/schemas/ServiceVersionDto"
+          }
+        },
+        "required": [
+          "api"
+        ],
+        "title": "VersionsDto",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "Per-fixture expected goals and clean-sheet odds for the FPL fixture ticker.",
+    "title": "fixture-ticker-api",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/ticker": {
+      "get": {
+        "description": "Teams, gameweeks and predictions for every unplayed fixture of the current season.",
+        "operationId": "getTicker",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TickerDto"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "description": "No model run stored yet"
+          }
+        },
+        "summary": "Ticker",
+        "tags": [
+          "ticker"
+        ]
+      }
+    },
+    "/api/v1/versions": {
+      "get": {
+        "description": "The deployed version, from `APP_VERSION`. The staging banner and promotion checks read it.",
+        "operationId": "getVersions",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VersionsDto"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Versions",
+        "tags": [
+          "meta"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: chore
+      include: scope
+    # Angular pins TypeScript to a single minor (>=6.0 <6.1 on 22.x), so a TypeScript major can
+    # only land together with an Angular major. Left in the group, npm hung resolving
+    # typescript@7 until the job's time limit and cancelled every weekly update from July on.
+    #
+    # Vitest the same way: @angular/build 22.1 peers on vitest ^4.0.8, and Dependabot writes the
+    # lockfile with --force, so a vitest 5 bump opened a group PR that `npm ci` refused outright.
+    # 22.2 widens the peer to ^4 || ^5; lift this with that Angular update.
+    ignore:
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
+      - dependency-name: vitest
+        update-types:
+          - version-update:semver-major
+      - dependency-name: "@vitest/*"
+        update-types:
+          - version-update:semver-major
+    groups:
+      all-dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - major
+          - minor
+          - patch
+      all-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      all-actions:
+        patterns:
+          - "*"
+        update-types:
+          - major
+          - minor
+          - patch
+
+  # The node and nginx base images in the Dockerfile.
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+      include: scope

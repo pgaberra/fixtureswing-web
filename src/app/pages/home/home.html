@@ -1,0 +1,22 @@
+<section class="intro">
+  <h1>FPL Fixture Ticker</h1>
+  <p class="lede">
+    Which Premier League teams have the easiest fixtures over the gameweeks you choose, ranked by
+    how much easier, with projected goals and clean sheet chances for every match.
+  </p>
+</section>
+
+@if (ticker.isLoading()) {
+  <app-loading-indicator />
+} @else if (ticker.error()) {
+  <app-error-state
+    title="Couldn't load the fixtures"
+    [error]="ticker.error()"
+    (retry)="ticker.reload()"
+  />
+} @else if (ticker.value(); as data) {
+  <p class="summary">
+    {{ data.teams.length }} teams, {{ data.fixtures.length }} upcoming fixtures from gameweek
+    {{ data.nextGameweek }}.
+  </p>
+}

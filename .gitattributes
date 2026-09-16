@@ -1,0 +1,12 @@
+* text=auto
+
+# Scripts and units are copied to the Linux servers; a CR breaks shebangs and systemd paths.
+*.sh text eol=lf
+*.conf text eol=lf
+*.service text eol=lf
+*.timer text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+*.png binary
+*.ico binary

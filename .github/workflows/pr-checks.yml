@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v7
 
       # The api repo is private, so reading its spec needs a fine-grained PAT with read access to
-      # pgaberra/fixture-ticker-api contents (secret SPEC_READ_TOKEN). Without it the check is
+      # pgaberra/fixtureswing-api contents (secret SPEC_READ_TOKEN). Without it the check is
       # skipped with a warning rather than failing every PR; spec-freshness.yml fails instead.
       - name: Verify pinned api spec is in sync
         if: github.actor != 'dependabot[bot]'
@@ -31,11 +31,11 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           if [ -z "$PRODUCER_TOKEN" ]; then
-            echo "::warning::SPEC_READ_TOKEN is not set, so the pinned api spec was not compared with fixture-ticker-api."
+            echo "::warning::SPEC_READ_TOKEN is not set, so the pinned api spec was not compared with fixtureswing-api."
             exit 0
           fi
           bash .github/scripts/check-pinned-spec.sh \
-            pgaberra/fixture-ticker-api specs/openapi.json specs/api-openapi.json \
+            pgaberra/fixtureswing-api specs/openapi.json specs/api-openapi.json \
             'npm run generate:api'
 
       - name: Set up Node

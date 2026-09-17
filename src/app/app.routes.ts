@@ -4,7 +4,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    title: 'FPL Fixture Ticker: fixture difficulty with projected goals and clean sheets',
+    title: 'FixtureSwing: FPL fixture ticker with projected goals and clean sheets',
     loadComponent: () => import('./pages/home/home').then((m) => m.HomeComponent),
   },
   { path: '**', redirectTo: '' },

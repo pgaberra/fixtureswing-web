@@ -1,6 +1,6 @@
-# CLAUDE.md — fixture-ticker-web
+# CLAUDE.md — fixtureswing-web
 
-The Angular frontend of fixture-ticker, a free FPL fixture ticker. **Public repo**: never commit
+The Angular frontend of FixtureSwing (fixtureswing.com), a free FPL fixture ticker. **Public repo**: never commit
 secrets, user data or server details (issue text, Actions logs and artifacts are public too).
 
 Shared rules (architecture, data sources, service communication, working agreement) are in the
@@ -20,7 +20,7 @@ key). Served by nginx; prerendered home page (`outputMode: static`).
 npx npm@latest ci                 # npm 11.4.1 on this machine has a resolver bug; use latest
 npm run generate:api              # after cloning or re-pinning the spec (src/app/api is gitignored)
 npm start                         # http://localhost:4200, /api proxied to the api on :8100
-npm run build                     # production build + prerender into dist/fixture-ticker-web/browser
+npm run build                     # production build + prerender into dist/fixtureswing-web/browser
 ```
 
 **The checks CI runs, run them all before a PR:** `npm run generate:api`,
@@ -30,14 +30,14 @@ npm run build                     # production build + prerender into dist/fixtu
 
 ## The api contract
 
-- `specs/api-openapi.json` is a **verbatim copy** of `fixture-ticker-api`'s `specs/openapi.json`.
+- `specs/api-openapi.json` is a **verbatim copy** of `fixtureswing-api`'s `specs/openapi.json`.
   Never reformat it (it is excluded from Prettier's globs and marked `-text`). To re-pin: copy the
   file byte for byte, run `npm run generate:api`, fix compile errors.
 - Components never call the generated `Api` directly; a service wraps it (`TickerApiService`).
 - The api is always **same-origin** (`apiRootUrl: ''`): the dev proxy (`proxy.conf.json`) locally,
   nginx `/api` in deployed environments. No CORS anywhere.
 - The api repo is private, so the PR check needs the `SPEC_READ_TOKEN` secret (fine-grained PAT,
-  read access to `pgaberra/fixture-ticker-api` contents, ~90-day expiry). Without it the PR check
+  read access to `pgaberra/fixtureswing-api` contents, ~90-day expiry). Without it the PR check
   skips with a warning and `spec-freshness.yml` fails.
 
 ## The ticker

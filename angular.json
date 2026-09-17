@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "fixture-ticker-web": {
+    "fixtureswing-web": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -73,10 +73,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "fixture-ticker-web:build:production"
+              "buildTarget": "fixtureswing-web:build:production"
             },
             "development": {
-              "buildTarget": "fixture-ticker-web:build:development"
+              "buildTarget": "fixtureswing-web:build:development"
             }
           },
           "defaultConfiguration": "development",

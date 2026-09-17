@@ -6,7 +6,7 @@
 # Run after `npm run build`.
 set -euo pipefail
 
-out=dist/fixture-ticker-web/browser
+out=dist/fixtureswing-web/browser
 
 # path|text that only that page's own content contains
 checks=(

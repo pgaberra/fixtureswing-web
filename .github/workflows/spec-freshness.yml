@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   pinned-spec:
-    name: Pinned api spec matches fixture-ticker-api
+    name: Pinned api spec matches fixtureswing-api
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -26,5 +26,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           bash .github/scripts/check-pinned-spec.sh \
-            pgaberra/fixture-ticker-api specs/openapi.json specs/api-openapi.json \
+            pgaberra/fixtureswing-api specs/openapi.json specs/api-openapi.json \
             'npm run generate:api'

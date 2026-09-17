@@ -34,13 +34,13 @@ RUN npm run build
 FROM nginx:alpine
 # ARGs don't cross stages. API_UPSTREAM is the api's address on the private Docker network, which
 # nginx proxies /api to; the api itself has no public hostname.
-ARG API_UPSTREAM=http://fixture-ticker-api:8100
+ARG API_UPSTREAM=http://fixtureswing-api:8100
 ARG APP_ENV=production
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN if [ "$APP_ENV" = "production" ]; then ROBOTS_TAG=""; else ROBOTS_TAG="noindex"; fi && \
   sed -i -e "s|__API_UPSTREAM__|${API_UPSTREAM}|g" -e "s|__ROBOTS_TAG__|${ROBOTS_TAG}|g" \
   /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist/fixture-ticker-web/browser /usr/share/nginx/html
+COPY --from=build /app/dist/fixtureswing-web/browser /usr/share/nginx/html
 
 # Run nginx as the image's unprivileged `nginx` user, master process included. Docker sets
 # ip_unprivileged_port_start=0 in the container's network namespace, so port 80 still binds. A

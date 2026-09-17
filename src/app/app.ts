@@ -9,7 +9,7 @@ import { EnvironmentBannerComponent } from './shared/environment-banner/environm
   template: `
     <app-environment-banner [environmentName]="environmentName" [version]="version" />
     <header class="site-header">
-      <a class="brand" href="/">Fixture Ticker</a>
+      <a class="brand" href="/">FixtureSwing</a>
     </header>
     <main class="site-main">
       <router-outlet />

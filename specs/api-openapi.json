@@ -261,8 +261,8 @@
     }
   },
   "info": {
-    "description": "Per-fixture expected goals and clean-sheet odds for the FPL fixture ticker.",
-    "title": "fixture-ticker-api",
+    "description": "Per-fixture expected goals and clean-sheet odds for the FixtureSwing ticker.",
+    "title": "fixtureswing-api",
     "version": "0.1.0"
   },
   "openapi": "3.1.0",

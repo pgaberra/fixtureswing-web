@@ -1,4 +1,4 @@
-# Decision log — fixture-ticker-web
+# Decision log — fixtureswing-web
 
 One line per decision: `[date] <what was decided> — <why, and what was rejected>.` Cross-repo
 decisions live in the workspace `../DECISIONS.md`.
@@ -14,4 +14,5 @@ decisions live in the workspace `../DECISIONS.md`.
 [2026-09-17] Defence ease uses the neutral clean-sheet chance, not negated goals against — a sum of "goals against" would make a blank gameweek look easy; with probabilities a blank adds nothing, like attack.
 [2026-09-17] Cell colours scaled over all upcoming fixtures, not the selected range — otherwise the same fixture changes colour when the range changes.
 [2026-09-17] Range, view and sort in the URL with replaceUrl — shareable and reload-safe without filling the back button with every click.
+[2026-09-17] Brand FixtureSwing in the header and document title, while the page's H1 stays the descriptive "FPL Fixture Ticker" — the brand is new and unknown; the H1 carries the search phrase people actually use. "FPL"/"Premier League" stay out of the brand and domain (their trademarks).
 ```

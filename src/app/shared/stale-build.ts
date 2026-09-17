@@ -11,7 +11,7 @@
  * cannot put the tab in a reload loop. Cleared on the next navigation that works. Exported so a
  * test asserting that nothing was reported cannot pass by writing the wrong key.
  */
-export const RELOADED_KEY = 'fixture_ticker_reloaded_for_stale_build';
+export const RELOADED_KEY = 'fixtureswing_reloaded_for_stale_build';
 
 /**
  * Every route is lazily loaded, so a tab that was open across a deploy asks for chunk filenames

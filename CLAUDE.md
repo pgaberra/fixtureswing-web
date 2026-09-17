@@ -89,4 +89,10 @@ npm run build                     # production build + prerender into dist/fixtu
 `pr-checks.yml` on pull requests only; `spec-freshness.yml` on weekday mornings. CI never runs
 `docker build`, so the Dockerfile is first exercised on staging. Build args: `APP_ENV`,
 `APP_VERSION`, `SENTRY_DSN`, `POSTHOG_KEY` (build stage) and `API_UPSTREAM` (serve stage, the api's
-address on the Docker network). Tag-on-merge and promotion workflows arrive with the deploy phase.
+address on the Docker network, default `http://fixtureswing-api:8100`).
+
+**Deploys** (live since 2026-09-17, runbook in the workspace `ops/README.md`): merging to master
+tags a version, drafts a release and rebuilds **staging** (`staging.fixtureswing.com`, behind the
+staging server's IP gate) with `APP_VERSION` baked in; publishing the release promotes
+**production** (`fixtureswing.com`, `www` redirects to the apex at the edge). The web serves no
+version endpoint, so production verification is the server-side build-log commit check.
